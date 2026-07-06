@@ -1,0 +1,168 @@
+/* -------------------------------------------------------------
+   VARIABLES ET CONFIGURATION GLOBALE
+------------------------------------------------------------- */
+:root {
+    --color-gold-base: #c59250;
+    --color-gold-dark: #8a5a2b;
+    --color-gold-light: #e5c187;
+    --color-dark: #111111;
+    --color-light: #fcfbfa;
+    --color-gray: #777777;
+    
+    /* Dégradé métallique inspiré du logo */
+    --gradient-gold: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold-light) 50%, var(--color-gold-base) 100%);
+    
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Montserrat', Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+/* -------------------------------------------------------------
+   NAVIGATION (HEADER)
+------------------------------------------------------------- */
+.main-header {
+    background-color: rgba(252, 251, 250, 0.95);
+    border-bottom: 1px solid rgba(197, 146, 80, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-area a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-text {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+
+.nav-link {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+    color: var(--color-dark);
+    padding-bottom: 5px;
+    position: relative;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--color-gold-base);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gradient-gold);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* -------------------------------------------------------------
+   PIED DE PAGE (FOOTER)
+------------------------------------------------------------- */
+.main-footer {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    padding: 60px 20px 20px 20px;
+    margin-top: 80px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    border-bottom: 1px solid rgba(252, 251, 250, 0.1);
+    padding-bottom: 40px;
+}
+
+.footer-section h3 {
+    font-family: var(--font-serif);
+    color: var(--color-gold-light);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.footer-section p {
+    font-size: 0.9rem;
+    color: #a5a5a5;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.brand-tagline {
+    font-style: italic;
+    font-family: var(--font-serif);
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666666;
+    letter-spacing: 1px;
+}
