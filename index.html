@@ -1,0 +1,377 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* 1. SECTION HERO (BANNIÈRE DE BIENVENUE) - Niveau Luxe */
+    .hero-section {
+        padding: 180px 20px;
+        text-align: center;
+        /* INTÉGRATION DE TA NOUVELLE IMAGE banniere.jpg EN FOND */
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.45)), url("{{ url_for('static', filename='images/banniere.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-bottom: 1px solid rgba(197, 146, 80, 0.2);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .hero-subtitle {
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        color: #c59250; /* Or éclatant */
+        margin-bottom: 20px;
+        font-weight: 500;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .hero-title {
+        font-family: var(--font-serif);
+        font-size: 3.8rem;
+        font-weight: 400;
+        line-height: 1.2;
+        margin-bottom: 25px;
+        color: #ffffff; /* Blanc pur */
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        max-width: 900px;
+        text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+    }
+    .hero-description {
+        font-size: 1.15rem;
+        font-weight: 300;
+        color: #e0e0e0;
+        max-width: 650px;
+        margin: 0 auto 40px auto;
+        line-height: 1.7;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    }
+    .hero-btn {
+        display: inline-block;
+        padding: 16px 40px;
+        background-color: #c59250;
+        color: #ffffff;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+        font-weight: 500;
+        transition: all 0.4s ease;
+        border: 1px solid #c59250;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .hero-btn:hover {
+        background-color: transparent;
+        color: #ffffff;
+        border-color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+    }
+
+    /* 2. TITRES DE SECTIONS */
+    .section-container {
+        max-width: 1250px;
+        margin: 0 auto;
+        padding: 100px 20px;
+    }
+    .section-bg-light {
+        background-color: #fdfdfd;
+        border-top: 1px solid rgba(0,0,0,0.02);
+        border-bottom: 1px solid rgba(0,0,0,0.02);
+    }
+    .section-title {
+        font-family: var(--font-serif);
+        font-size: 2.2rem;
+        font-weight: 400;
+        text-align: center;
+        margin-bottom: 20px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--color-dark);
+    }
+    .section-divider {
+        width: 70px;
+        height: 2px;
+        background: var(--color-gold-base);
+        margin: 0 auto 60px auto;
+    }
+
+    /* 3. GRILLE DE PRODUITS - Animations Senior */
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 45px;
+    }
+    .product-card {
+        background: #ffffff;
+        padding: 25px 20px;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        text-decoration: none;
+        display: block;
+    }
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+        border-color: rgba(197, 146, 80, 0.2);
+    }
+    .product-image-wrapper {
+        width: 100%;
+        height: 320px;
+        margin-bottom: 25px;
+        overflow: hidden;
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .product-image {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+        transition: transform 0.7s ease;
+    }
+    .product-card:hover .product-image {
+        transform: scale(1.06);
+    }
+    .product-category {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--color-gold-base);
+        margin-bottom: 12px;
+        font-weight: 500;
+    }
+    .product-name {
+        font-family: var(--font-serif);
+        font-size: 1.4rem;
+        color: var(--color-dark);
+        margin-bottom: 10px;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+    }
+    .product-details {
+        font-size: 0.85rem;
+        color: var(--color-gray);
+        font-weight: 300;
+        letter-spacing: 0.5px;
+    }
+
+    /* Grille spécifique pour centres les items si moins de 3 */
+    .musc-grid {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+</style>
+
+<section class="hero-section">
+    <p class="hero-subtitle">Maison Haute Parfumerie</p>
+    <h1 class="hero-title">Le luxe qui vous suit partout</h1>
+    <p class="hero-description">Découvrez nos collections exclusives de parfums de luxe, muscs précieux et fragrances d'ambiance raffinées.</p>
+    <a href="#parfums" class="hero-btn">Découvrir les fragrances</a>
+</section>
+
+<section id="parfums" class="section-container">
+    <h2 class="section-title">Collection Parfums</h2>
+    <div class="section-divider"></div>
+    
+    <div class="products-grid">
+        <a href="{{ url_for('product_detail', product_id='floreal') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Parfums images/floréal.jpg') }}" alt="Floréal" class="product-image">
+            </div>
+            <p class="product-category">Pour Femme</p>
+            <h3 class="product-name">Floréal</h3>
+            <p class="product-details">Eau de Parfum Intense • 50 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='pure-vanille') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Parfums images/pure-vanille.jpg') }}" alt="Pure Vanille" class="product-image">
+            </div>
+            <p class="product-category">Pour Femme</p>
+            <h3 class="product-name">Pure Vanille</h3>
+            <p class="product-details">Eau de Parfum Intense • 50 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='rose-verde') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Parfums images/rose-verde.jpg') }}" alt="Rose Verde" class="product-image">
+            </div>
+            <p class="product-category">Pour Femme</p>
+            <h3 class="product-name">Rose Verde</h3>
+            <p class="product-details">Eau de Parfum Intense • 50 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='gentlemens-code') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Parfums images/gentlemen\'s-code.jpg') }}" alt="Gentlemen's Code" class="product-image">
+            </div>
+            <p class="product-category">Pour Homme</p>
+            <h3 class="product-name">Gentlemen's Code</h3>
+            <p class="product-details">Eau de Parfum Intense • 50 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='the-king') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Parfums images/the-king.jpg') }}" alt="The King" class="product-image">
+            </div>
+            <p class="product-category">Pour Homme</p>
+            <h3 class="product-name">The King</h3>
+            <p class="product-details">Eau de Parfum Intense • 50 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='glow-addiction') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Parfums images/glow-addiction.jpg') }}" alt="Glow Addiction" class="product-image">
+            </div>
+            <p class="product-category">Collection Privée • Unisexe</p>
+            <h3 class="product-name">Glow Addiction</h3>
+            <p class="product-details">Eau de Parfum Intense • 50 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='pure-sensation') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Parfums images/pure-sensation.jpg') }}" alt="Pure Sensation" class="product-image">
+            </div>
+            <p class="product-category">Unisexe</p>
+            <h3 class="product-name">Pure Sensation</h3>
+            <p class="product-details">Eau de Parfum Intense • 50 ml</p>
+        </a>
+    </div>
+</section>
+
+<section id="muscs" class="section-container section-bg-light">
+    <h2 class="section-title">Collection Muscs</h2>
+    <div class="section-divider"></div>
+    
+    <div class="products-grid musc-grid">
+        <a href="{{ url_for('product_detail', product_id='musc-blanc') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Musc images/Musc-Blanc.jpg') }}" alt="Musc Blanc" class="product-image">
+            </div>
+            <p class="product-category">Huile de Parfum</p>
+            <h3 class="product-name">Musc Blanc</h3>
+            <p class="product-details">Pure Sensation Traditionnelle</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='musc-grenade') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Musc images/Musc-Grenade.jpg') }}" alt="Musc Grenade" class="product-image">
+            </div>
+            <p class="product-category">Huile de Parfum</p>
+            <h3 class="product-name">Musc Grenade</h3>
+            <p class="product-details">Explosion Fruitée Subtile</p>
+        </a>
+    </div>
+</section>
+
+<section id="ambiance" class="section-container">
+    <h2 class="section-title">Parfums d'Ambiance</h2>
+    <div class="section-divider"></div>
+    
+    <div class="products-grid">
+        <a href="{{ url_for('product_detail', product_id='ambiance-fraicheur-pins') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Ambiance images/fraicheur-pins.jpg') }}" alt="Fraîcheur de Pins" class="product-image">
+            </div>
+            <p class="product-category">Spray Intérieur</p>
+            <h3 class="product-name">Fraîcheur de Pins</h3>
+            <p class="product-details">Boisé & Résineux • 200 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='ambiance-douceur-fruitee') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Ambiance images/douceur-fruitee.jpg') }}" alt="Douceur Fruitée" class="product-image">
+            </div>
+            <p class="product-category">Spray Intérieur</p>
+            <h3 class="product-name">Douceur Fruitée</h3>
+            <p class="product-details">Pétillant & Solaire • 200 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='ambiance-rose-boisee') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Ambiance images/rose-boisee.jpg') }}" alt="Rose Boisée" class="product-image">
+            </div>
+            <p class="product-category">Spray Intérieur</p>
+            <h3 class="product-name">Rose Boisée</h3>
+            <p class="product-details">Floral & Sophistiqué • 200 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='ambiance-nectar-ete') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Ambiance images/nectar-ete.jpg') }}" alt="Nectar D'été" class="product-image">
+            </div>
+            <p class="product-category">Spray Intérieur</p>
+            <h3 class="product-name">Nectar D'été</h3>
+            <p class="product-details">Frais & Herbacé • 200 ml</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='ambiance-douceur-sucree') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Ambiance images/douceur-sucree.jpg') }}" alt="Douceur Sucrée" class="product-image">
+            </div>
+            <p class="product-category">Spray Intérieur</p>
+            <h3 class="product-name">Douceur Sucrée</h3>
+            <p class="product-details">Gourmand & Réconfortant • 200 ml</p>
+        </a>
+    </div>
+</section>
+
+<section id="voiture" class="section-container section-bg-light">
+    <h2 class="section-title">Parfums de Voiture</h2>
+    <div class="section-divider"></div>
+    
+    <div class="products-grid">
+        <a href="{{ url_for('product_detail', product_id='voiture-fraicheur-pins') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Voiture images/voiture-fraicheur-pins.jpg') }}" alt="Voiture - Fraîcheur de Pins" class="product-image">
+            </div>
+            <p class="product-category">Diffuseur Suspendu</p>
+            <h3 class="product-name">Fraîcheur de Pins</h3>
+            <p class="product-details">L'essence de la nature</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='voiture-douceur-fruitee') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Voiture images/voiture-douceur-fruitee.jpg') }}" alt="Voiture - Douceur Fruitée" class="product-image">
+            </div>
+            <p class="product-category">Diffuseur Suspendu</p>
+            <h3 class="product-name">Douceur Fruitée</h3>
+            <p class="product-details">Vitalité au quotidien</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='voiture-rose-boisee') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Voiture images/voiture-rose-boise.jpg') }}" alt="Voiture - Rose Boisée" class="product-image">
+            </div>
+            <p class="product-category">Diffuseur Suspendu</p>
+            <h3 class="product-name">Rose Boisée</h3>
+            <p class="product-details">Élégance à bord</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='voiture-nectar-ete') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Voiture images/voiture-nectar-ete.jpg') }}" alt="Voiture - Nectar D'été" class="product-image">
+            </div>
+            <p class="product-category">Diffuseur Suspendu</p>
+            <h3 class="product-name">Nectar D'été</h3>
+            <p class="product-details">Pureté éclatante</p>
+        </a>
+
+        <a href="{{ url_for('product_detail', product_id='voiture-douceur-sucree') }}" class="product-card">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='images/Voiture images/voiture-douceur-sucree.jpg') }}" alt="Voiture - Douceur Sucrée" class="product-image">
+            </div>
+            <p class="product-category">Diffuseur Suspendu</p>
+            <h3 class="product-name">Douceur Sucrée</h3>
+            <p class="product-details">Voyage gourmand</p>
+        </a>
+    </div>
+</section>
+{% endblock %}

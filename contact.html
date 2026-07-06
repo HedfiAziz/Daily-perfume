@@ -1,0 +1,372 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Animation d'apparition fluide et luxueuse de la page */
+    .contact-page-wrapper {
+        max-width: 1200px;
+        margin: 80px auto 120px auto;
+        padding: 0 30px;
+        animation: premiumFadeIn 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    
+    @keyframes premiumFadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* En-tête de la page - Style Boutique Privée */
+    .contact-header {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+    .contact-subtitle {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        color: #c59250; /* Or Signature */
+        margin-bottom: 15px;
+        font-weight: 500;
+        display: inline-block;
+    }
+    .contact-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        font-weight: 400;
+        color: #111;
+        letter-spacing: 1px;
+        margin: 0;
+    }
+    .contact-header-divider {
+        width: 60px;
+        height: 1px;
+        background: radial-gradient(circle, #c59250 0%, rgba(197,146,80,0) 100%);
+        margin: 25px auto 0 auto;
+    }
+
+    /* Configuration de la Grille Professionnelle */
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.3fr;
+        gap: 80px;
+        align-items: start;
+    }
+
+    /* ======================================================= */
+    /* TRACE SENIOR DEV : PANNEAU GAUCHE CONCIERGERIE & INFOS  */
+    /* ======================================================= */
+    .contact-info-panel {
+        background: #fdfaf5; /* Fond crème signature */
+        border: 1px solid rgba(197, 146, 80, 0.12);
+        padding: 50px 40px;
+        border-radius: 8px;
+        box-shadow: 0 20px 40px rgba(197, 146, 80, 0.02);
+    }
+    
+    .panel-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.6rem;
+        color: #111;
+        margin-bottom: 35px;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+    }
+
+    .info-item-box {
+        margin-bottom: 35px;
+        position: relative;
+        padding-left: 20px;
+    }
+    
+    /* Indicateur de luxe : Fine ligne dorée verticale */
+    .info-item-box::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: 2px;
+        height: 16px;
+        background-color: #c59250;
+        opacity: 0.7;
+    }
+
+    .info-item-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #c59250;
+        font-weight: 500;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    .info-item-value {
+        font-size: 1rem;
+        color: #333;
+        font-weight: 300;
+        line-height: 1.6;
+        margin: 0;
+    }
+    
+    .info-item-value a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .info-item-value a:hover {
+        color: #c59250;
+    }
+
+    /* Élément graphique épuré simulant l'emplacement de la boutique */
+    .boutique-map-placeholder {
+        margin-top: 40px;
+        height: 140px;
+        background: #ffffff;
+        border: 1px solid rgba(197, 146, 80, 0.08);
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .map-icon-luxury {
+        font-size: 1.2rem;
+        color: #c59250;
+        margin-bottom: 8px;
+    }
+    
+    .map-text {
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        color: #888;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+
+    /* ======================================================= */
+    /* TRACE SENIOR DEV : FORMULAIRE HAUTE COUTURE (DROITE)   */
+    /* ======================================================= */
+    .contact-form-panel {
+        background: #ffffff;
+        padding: 10px 0;
+    }
+    
+    .form-panel-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        color: #111;
+        margin-bottom: 15px;
+        font-weight: 400;
+    }
+    
+    .form-panel-subtitle {
+        font-size: 0.95rem;
+        color: #666;
+        font-weight: 300;
+        margin-bottom: 50px;
+        line-height: 1.7;
+    }
+
+    /* Groupe input premium avec label flottant actif */
+    .premium-form-group {
+        position: relative;
+        margin-bottom: 40px;
+    }
+
+    .premium-input {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 1rem;
+        color: #111;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #e0e0e0;
+        outline: none;
+        font-weight: 300;
+        transition: border-color 0.4s ease;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    /* Changement de couleur de la ligne basse au focus */
+    .premium-input:focus {
+        border-bottom: 1px solid #c59250;
+    }
+
+    /* Style du label par défaut reposant dans l'input */
+    .premium-label {
+        position: absolute;
+        top: 12px;
+        left: 0;
+        font-size: 0.95rem;
+        color: #999;
+        font-weight: 300;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    /* L'animation magique : quand l'input est actif ou rempli, le label s'envole */
+    .premium-input:focus ~ .premium-label,
+    .premium-input:not(:placeholder-shown) ~ .premium-label {
+        top: -18px;
+        font-size: 0.75rem;
+        color: #c59250;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    .premium-textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    /* Bouton d'action d'exception */
+    .premium-submit-btn {
+        background: #111;
+        color: #ffffff;
+        border: 1px solid #111;
+        padding: 16px 45px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+        display: inline-block;
+        border-radius: 2px;
+    }
+
+    .premium-submit-btn:hover {
+        background: #c59250;
+        border-color: #c59250;
+        letter-spacing: 3.5px; /* Élargissement subtil du texte au survol */
+        box-shadow: 0 10px 30px rgba(197, 146, 80, 0.15);
+    }
+
+    /* Responsive Design fluide */
+    @media (max-width: 992px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+        .contact-page-wrapper {
+            margin: 50px auto 80px auto;
+        }
+        .contact-title {
+            font-size: 2.4rem;
+        }
+    }
+    /* Style Senior Dev pour le message de succès */
+    .flash-message {
+        background-color: #f9fcf8;
+        border-left: 4px solid #c59250;
+        color: #2b542c;
+        padding: 15px 20px;
+        margin-bottom: 30px;
+        font-size: 0.9rem;
+        font-weight: 400;
+        letter-spacing: 0.5px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        animation: premiumFadeIn 0.5s ease-out;
+    }
+</style>
+
+<div class="contact-page-wrapper">
+
+    <div class="contact-header">
+        <span class="contact-subtitle">Relations Clientèle</span>
+        <h1 class="contact-title">À votre écoute</h1>
+        <div class="contact-header-divider"></div>
+    </div>
+
+    <div class="contact-grid">
+        
+        <div class="contact-info-panel">
+            <h2 class="panel-title">La Maison Daily Perfume</h2>
+            
+            <div class="info-item-box">
+                <span class="info-item-label">Boutique Sousse</span>
+                <p class="info-item-value">
+                    Immeuble Aziza, Rue des Orangers<br>
+                    Khezama, Sousse 4051, Tunisie
+                </p>
+            </div>
+
+            <div class="info-item-box">
+                <span class="info-item-label">Ligne Directe</span>
+                <p class="info-item-value">
+                    <a href="tel:+21620247165">+216 20 247 165</a>
+                </p>
+            </div>
+
+            <div class="info-item-box">
+                <span class="info-item-label">Adresse Électronique</span>
+                <p class="info-item-value">
+                    <a href="mailto:dailyperfume99@gmail.com">dailyperfume99@gmail.com</a>
+                </p>
+            </div>
+
+            <div class="info-item-box">
+                <span class="info-item-label">Horaires de la Maison</span>
+                <p class="info-item-value">
+                    Lundi — Samedi : 09:30 – 19:30<br>
+                    Dimanche : Fermé
+                </p>
+            </div>
+
+            <div class="boutique-map-placeholder">
+                <div class="map-icon-luxury">✧</div>
+                <div class="map-text">Sousse • Khezama</div>
+            </div>
+        </div>
+
+        <div class="contact-form-panel">
+            <h2 class="form-panel-title">Écrire une note</h2>
+            <p class="form-panel-subtitle">Une question sur nos fragrances, une commande spéciale ou un besoin de conseil olfactif ? Nos experts vous répondent sous 24 heures.</p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, msg in messages %}
+                  <div class="flash-message">{{ msg }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            
+            <form action="{{ url_for('contact') }}" method="POST" autocomplete="off">
+                
+                <div class="premium-form-group">
+                    <input type="text" name="name" id="name" class="premium-input" placeholder=" " required>
+                    <label for="name" class="premium-label">Votre nom complet</label>
+                </div>
+                
+                <div class="premium-form-group">
+                    <input type="email" name="email" id="email" class="premium-input" placeholder=" " required>
+                    <label for="email" class="premium-label">Votre adresse e-mail</label>
+                </div>
+
+                <div class="premium-form-group">
+                    <input type="text" name="subject" id="subject" class="premium-input" placeholder=" " required>
+                    <label for="subject" class="premium-label">Sujet de votre message</label>
+                </div>
+
+                <div class="premium-form-group">
+                    <textarea name="message" id="message" class="premium-input premium-textarea" placeholder=" " required></textarea>
+                    <label for="message" class="premium-label">Votre message...</label>
+                </div>
+
+                <button type="submit" class="premium-submit-btn">
+                    Envoyer le message
+                </button>
+                
+            </form>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Animation d'apparition globale de la page */
+    .product-detail-container {
+        max-width: 1200px;
+        margin: 60px auto 100px auto;
+        padding: 0 20px;
+        animation: fadeIn 1s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .product-main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+        margin-bottom: 80px;
+    }
+
+    /* Partie Visuelle (Gauche) */
+    .product-image-showcase {
+        background-color: #ffffff;
+        border: 1px solid rgba(197, 146, 80, 0.1);
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 550px;
+        border-radius: 4px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.02);
+    }
+    .product-large-img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    /* Partie Textuelle (Droite) */
+    .product-meta-category {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--color-gold-base, #c59250);
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+    .product-meta-title {
+        font-family: var(--font-serif, 'Playfair Display', serif);
+        font-size: 3rem;
+        font-weight: 400;
+        color: #111;
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+    }
+    .product-meta-type {
+        font-size: 1rem;
+        color: #888;
+        font-weight: 300;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+    }
+    .product-meta-description {
+        font-size: 1.05rem;
+        color: #444;
+        font-weight: 300;
+        line-height: 1.8;
+        margin-bottom: 40px;
+    }
+
+    /* Pyramide Olfactive Style Luxe */
+    .olfactive-pyramid {
+        border-top: 1px solid rgba(197, 146, 80, 0.15);
+        padding-top: 30px;
+    }
+    .olfactive-level {
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: 140px 1fr;
+    }
+    .olfactive-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 500;
+        color: #c59250;
+    }
+    .olfactive-value {
+        font-size: 0.95rem;
+        font-weight: 300;
+        color: #111;
+    }
+
+    /* Section Technique Ingrédients (Bas) */
+    .product-technical-section {
+        border-top: 1px solid #eeeeee;
+        padding-top: 50px;
+        margin-top: 60px;
+    }
+    .technical-title {
+        font-family: var(--font-serif, 'Playfair Display', serif);
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .technical-content {
+        font-size: 0.85rem;
+        color: #666;
+        line-height: 1.7;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+    }
+
+    /* ======================================================= */
+    /* TRACE SENIOR DEV : GALERIE EN PLEIN BACKGROUND (COVER)  */
+    /* ======================================================= */
+    .facebook-gallery-wrapper {
+        margin-top: 80px;
+        background: #fdfaf5;
+        padding: 50px 20px; 
+        text-align: center;
+        border: 1px solid rgba(197, 146, 80, 0.1);
+        border-radius: 8px;
+    }
+    .gallery-title {
+        font-family: var(--font-serif, 'Playfair Display', serif);
+        font-size: 1.8rem;
+        font-weight: 400;
+        margin-bottom: 40px;
+        letter-spacing: 1px;
+        color: #111;
+    }
+    
+    .gallery-grid-placeholder {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        max-width: 1000px;
+        margin: 0 auto; /* Centre la galerie */
+    }
+    
+    .gallery-item-real {
+        width: 100%;
+        height: 400px; /* HAUTEUR FIXE POUR EMPÊCHER LE MODE GÉANT */
+        
+        /* 0 PADDING ET 0 BORDURE POUR LE MODE PLEIN BACKGROUND */
+        padding: 0; 
+        background: transparent;
+        border: none; 
+        
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    
+    .gallery-fb-img {
+        width: 100%;
+        height: 100%;
+        /* LE SECRET : COVER remplit tout l'espace comme un background sans déformer */
+        object-fit: cover; 
+        display: block;
+        transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    
+    .gallery-item-real:hover .gallery-fb-img {
+        transform: scale(1.04); /* Petit zoom très classe */
+    }
+
+    @media (max-width: 768px) {
+        .product-main-grid { grid-template-columns: 1fr; gap: 40px; }
+        .product-image-showcase { height: 400px; }
+        .facebook-gallery-wrapper { padding: 40px 15px; }
+        .gallery-item-real { height: 300px; }
+    }
+</style>
+
+<div class="product-detail-container">
+
+    <div class="product-main-grid">
+        <div class="product-image-showcase">
+            <img src="{{ url_for('static', filename='images/' ~ product.main_image) }}" alt="{{ product.name }}" class="product-large-img">
+        </div>
+
+        <div class="product-info-showcase">
+            <p class="product-meta-category">{{ product.category }} • {{ product.size }}</p>
+            <h1 class="product-meta-title">{{ product.name }}</h1>
+            <p class="product-meta-type">{{ product.type }}</p>
+            
+            <p class="product-meta-description">{{ product.description }}</p>
+            
+            <div class="olfactive-pyramid">
+                <div class="olfactive-level">
+                    <span class="olfactive-label">Notes de Tête</span>
+                    <span class="olfactive-value">{{ product.top_notes }}</span>
+                </div>
+                <div class="olfactive-level">
+                    <span class="olfactive-label">Notes de Cœur</span>
+                    <span class="olfactive-value">{{ product.heart_notes }}</span>
+                </div>
+                <div class="olfactive-level">
+                    <span class="olfactive-label">Notes de Fond</span>
+                    <span class="olfactive-value">{{ product.base_notes }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-technical-section">
+        <h2 class="technical-title">Liste des Ingrédients</h2>
+        <p class="technical-content">{{ product.ingredients }}</p>
+    </div>
+
+    <div class="facebook-gallery-wrapper">
+        <h2 class="gallery-title">L'Univers de {{ product.name }} </h2>
+        
+        <div class="gallery-grid-placeholder">
+            {% if product.gallery_images %}
+                {% for img in product.gallery_images %}
+                    <div class="gallery-item-real">
+                        <img src="{{ url_for('static', filename='images/' ~ img) }}" alt="Aperçu {{ product.name }}" class="gallery-fb-img">
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="width: 100%; color: #888; font-style: italic; font-weight: 300;">D'autres visuels de cette fragrance seront bientôt disponibles.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Perfume | Maison de Parfum</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        /* ========================================================== */
+        /* LE VRAI FIX : UNIFORMISER LE BLANC DE L'EN-TÊTE DE GAUCHE À DROITE */
+        /* ========================================================== */
+        body {
+            margin: 0; /* Assure qu'il n'y a pas de marge autour de la page */
+        }
+        
+        .main-header {
+            background-color: #ffffff !important; /* Blanc pur sur TOUTE la largeur */
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: transparent !important; /* On enlève le fond blanc restreint au milieu */
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            max-width: 1200px; /* Optionnel : garde le contenu centré si sur grand écran */
+            margin: 0 auto;    /* Optionnel : centre le conteneur */
+        }
+
+        /* ========================================== */
+        /* ANIMATIONS DU MENU ET RESTE DU CSS         */
+        /* ========================================== */
+        .main-nav ul {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-link {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #111;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 50%;
+            background-color: #c59250;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translateX(-50%);
+        }
+        .nav-link:hover {
+            color: #c59250;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .footer-social-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .social-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #a5a5a5 !important;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+        .social-link:hover {
+            color: #c59250 !important;
+        }
+        
+        .brand-logo { width: 45px; height: auto; margin-right: 15px; }
+        .logo-area a { display: flex; align-items: center; text-decoration: none; }
+        .brand-text { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #111; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Daily Perfume" class="brand-logo">
+                    <span class="brand-text">DAILY PERFUME</span>
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ url_for('home') }}" class="nav-link">Accueil</a></li>
+                    <li><a href="{{ url_for('home') }}#parfums" class="nav-link">Parfums</a></li>
+                    <li><a href="{{ url_for('home') }}#muscs" class="nav-link">Muscs</a></li>
+                    
+                    <li><a href="{{ url_for('home') }}#ambiance" class="nav-link">Ambiance</a></li>
+                    <li><a href="{{ url_for('home') }}#voiture" class="nav-link">Voiture</a></li>
+                    
+                    <li><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="main-footer" style="background-color: #0a0a0a; color: #ffffff; padding: 80px 20px 30px 20px;">
+        <div class="footer-container" style="display: flex; justify-content: space-around; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; gap: 40px;">
+            <div class="footer-section" style="max-width: 300px;">
+                <h3 style="font-family: 'Playfair Display', serif; color: #c59250; font-size: 1.5rem; margin-bottom: 20px;">Daily Perfume</h3>
+                <p class="brand-tagline" style="color: #888; font-weight: 300; line-height: 1.6;">Le luxe qui vous suit partout. Une signature olfactive unique pour affirmer votre présence.</p>
+            </div>
+            <div class="footer-section">
+                <h3 style="font-family: 'Playfair Display', serif; color: #c59250; font-size: 1.2rem; margin-bottom: 20px;">Boutique Sousse</h3>
+                <p style="color: #888; font-weight: 300; margin-bottom: 8px;">Immeuble Aziza, Rue des Orangers</p>
+                <p style="color: #888; font-weight: 300;">Khezama, Sousse 4051, Tunisie</p>
+            </div>
+            <div class="footer-section">
+                <h3 style="font-family: 'Playfair Display', serif; color: #c59250; font-size: 1.2rem; margin-bottom: 20px;">Contact & Réseaux</h3>
+                <p style="color: #888; font-weight: 300; margin-bottom: 8px;">Téléphone : +216 20 247 165</p>
+                <p style="color: #888; font-weight: 300;">E-mail : dailyperfume99@gmail.com</p>
+                
+                <div class="footer-social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61556767180581" target="_blank" class="social-link">Facebook</a>
+                    <a href="https://www.instagram.com/dailyperfume12/" target="_blank" class="social-link">Instagram</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom" style="text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+            <p style="color: #555; font-size: 0.8rem; letter-spacing: 1px;">&copy; 2026 Daily Perfume. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
